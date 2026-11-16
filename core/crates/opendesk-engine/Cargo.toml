@@ -6,5 +6,13 @@ rust-version.workspace = true
 license.workspace = true
 repository.workspace = true
 
+[dependencies]
+opendesk-capture = { path = "../opendesk-capture" }
+opendesk-encoder = { path = "../opendesk-encoder" }
+opendesk-input = { path = "../opendesk-input" }
+opendesk-proto = { path = "../opendesk-proto" }
+thiserror = "2.0"
+tokio = { version = "1.41", features = ["macros", "rt", "sync", "time"] }
+
 [lints]
 workspace = true
