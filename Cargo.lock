@@ -287,6 +287,10 @@ version = "0.1.0"
 [[package]]
 name = "opendesk-input"
 version = "0.1.0"
+dependencies = [
+ "opendesk-proto",
+ "thiserror",
+]
 
 [[package]]
 name = "opendesk-ipc"

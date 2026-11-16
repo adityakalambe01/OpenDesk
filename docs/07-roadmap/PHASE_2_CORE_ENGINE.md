@@ -21,7 +21,7 @@ Completion of Phase 1 (Cargo workspace setup).
 - `#![forbid(unsafe_code)]` enforced in `opendesk-proto` and `opendesk-crypto`.
 - Strongly-typed errors implemented via `thiserror`.
 - Coordinate normalization using 64-bit IEEE floating-point numbers ($0.0 \le X, Y \le 1.0$).
-- Token bucket rate limiter implementation for synthetic input streams.
+- Rolling-window rate limiter implementation for synthetic input streams.
 
 ## 6. Exact Folder and File Changes Expected
 ```
@@ -69,7 +69,7 @@ core/crates/
 - **P2-003**: Implement `opendesk-crypto` X25519 ephemeral key exchange and ChaCha20-Poly1305 AEAD.
 - **P2-004**: Define `ScreenCapturer` and `AudioCapturer` interfaces in `opendesk-capture`.
 - **P2-005**: Define `VideoEncoder` and `AudioEncoder` interfaces in `opendesk-encoder`.
-- **P2-006**: Define `InputInjector` interface and token bucket rate limiter in `opendesk-input`.
+- **P2-006**: Define `InputInjector` interface and rolling-window rate limiter in `opendesk-input`.
 - **P2-007**: Implement `EngineCoordinator` lifecycle loop and event dispatcher in `opendesk-engine`.
 - **P2-008**: Author comprehensive unit tests and property-based test suites.
 

@@ -2,6 +2,17 @@
 
 ## 1. Input Architecture & Security Boundaries
 
+The shared Rust `opendesk-input` crate defines `InputBackend` for native
+platform implementations and `RateLimitedInputInjector` as the public,
+rate-limited adapter over `opendesk_proto::InputMessage`. Its default limiter
+allows at most 1,000 events in any rolling one-second interval, including
+immediately after startup. Events over the limit are dropped before reaching
+the backend; the configured overflow callback is invoked at most once per
+limiter interval while events are being dropped, and the caller receives
+`InjectionOutcome::RateLimited` for every dropped event. Keep the callback
+non-blocking. Session authorization and protocol validation must happen before
+native injection.
+
 Input control represents the highest security surface of a remote desktop host. The input injection subsystem guarantees that:
 1. Input events are only processed if the session has active `FullControl` authorization.
 2. Coordinates are bounded and validated to prevent memory overflow or out-of-bounds pointer crashes.
@@ -17,7 +28,7 @@ flowchart TD
     subgraph SecurityGate["Input Security Gate (Host)"]
         PolicyCheck{"Is FullControl\nAuthorized?"}
         Sanitizer["Coordinate Normalization\n(0.0 <= x,y <= 1.0)\n& Scancode Bounds Check"]
-        RateLimiter["Token Bucket Rate Limiter\n(Max 1000 events/sec)"]
+        RateLimiter["Rolling Window Rate Limiter\n(Max 1000 events/sec)"]
     end
 
     subgraph NativeInjectors["Platform Native Input Injectors"]

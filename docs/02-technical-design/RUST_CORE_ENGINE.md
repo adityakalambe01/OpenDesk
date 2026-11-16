@@ -133,25 +133,16 @@ pub trait VideoEncoder: Send + Sync {
 }
 ```
 
-### C. Synthetic Input Trait (`opendesk-input`)
+### C. Synthetic Input Interface (`opendesk-input`)
 ```rust
-use opendesk_proto::input::{InputEvent, MouseButton, KeyState};
+use opendesk_input::{InputBackend, InputInjector, RateLimitedInputInjector};
+use opendesk_proto::InputMessage;
 
-#[derive(Error, Debug)]
-pub enum InputError {
-    #[error("Failed to inject input: {0}")]
-    InjectionFailed(String),
-    #[error("Operating system denied input privileges (TCC or Accessibility missing)")]
-    Unauthorized,
-}
-
-pub trait InputInjector: Send + Sync {
-    fn move_mouse_normalized(&mut self, x: f64, y: f64, display_id: u32) -> Result<(), InputError>;
-    fn mouse_button(&mut self, button: MouseButton, state: KeyState) -> Result<(), InputError>;
-    fn mouse_wheel(&mut self, delta_x: f64, delta_y: f64) -> Result<(), InputError>;
-    fn keyboard_key(&mut self, scancode: u32, state: KeyState) -> Result<(), InputError>;
-    fn send_system_command(&mut self, cmd: SystemCommand) -> Result<(), InputError>; // e.g. Ctrl+Alt+Del
-}
+// Native platform implementations implement InputBackend. Construct the
+// injector with a non-blocking alert callback, then pass it to the engine.
+let injector = RateLimitedInputInjector::new(native_backend, move || {
+    // Notify or increment the session's aggregated input-flood alert.
+});
 ```
 
 ---
