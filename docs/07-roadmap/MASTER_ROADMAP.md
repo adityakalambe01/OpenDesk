@@ -39,7 +39,7 @@ graph TD
 | Phase | Title | Primary Focus | Key Deliverable | Complexity | Status |
 |---|---|---|---|:---:|:---:|
 | **Phase 0** | Architecture & Foundation | System specifications, threat model, protocol design | Complete technical documentation | High | **Completed** |
-| **Phase 1** | Repository & Dev Setup | Monorepo scaffolding, compilers, CI/CD, Docker | All projects build & pass health checks | Medium | In progress |
+| **Phase 1** | Repository & Dev Setup | Monorepo scaffolding, compilers, CI/CD, Docker | All projects build & pass health checks | Medium | **Completed** |
 | **Phase 2** | Rust Core Engine | Abstraction traits, protocol serialization, crypto | Modular, unit-tested `libopendesk` | High | Dependent on P1 |
 | **Phase 3** | Desktop Remote Access | Windows DXGI/WGC capture, SendInput, H.264 stream | Working Windows P2P streaming over LAN | High | Dependent on P2 |
 | **Phase 4** | Networking & Connectivity | SignalR signaling, ICE candidate harvesting, Coturn | WAN connections across firewalls | High | Dependent on P3 |

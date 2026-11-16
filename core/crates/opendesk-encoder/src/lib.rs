@@ -1,2 +1,1 @@
 //! opendesk-encoder crate.
-

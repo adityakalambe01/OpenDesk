@@ -9,7 +9,7 @@ This document provides a live dashboard tracking the implementation status, comp
 | Phase | Phase Name | Status | Completed Tasks | Total Tasks | Completion % | Milestone Notes |
 |:---:|---|:---:|:---:|:---:|:---:|---|
 | **Phase 0** | Architecture & Project Foundation | **Completed** | 10 | 10 | 100% | Full architectural specification, PRD, security model, and roadmap baseline established. |
-| **Phase 1** | Repository & Dev Setup | **In Progress** | 1 | 8 | 12.5% | Root configuration complete; project scaffolds created, toolchain builds pending. |
+| **Phase 1** | Repository & Dev Setup | **Completed** | 8 | 8 | 100% | All projects build; desktop, mobile, Rust, and API tests pass; local services healthy; CI workflow configured. |
 | **Phase 2** | Rust Core Engine Interfaces | **Not Started** | 0 | 8 | 0% | Traits, binary protocol, Ed25519/X25519 crypto, rate limiters. |
 | **Phase 3** | Desktop Remote Access (Win) | **Not Started** | 0 | 8 | 0% | Windows DXGI/WGC capture, SendInput, H.264 stream over LAN. |
 | **Phase 4** | Networking & Connectivity | **Not Started** | 0 | 8 | 0% | SignalR signaling hub, STUN, Coturn TURN relay, ICE restart. |
@@ -19,7 +19,7 @@ This document provides a live dashboard tracking the implementation status, comp
 | **Phase 8** | Backend & Web Dashboard | **Not Started** | 0 | 8 | 0% | Multi-tenant RBAC, live fleet presence, browser WebRTC viewer, audit logs. |
 | **Phase 9** | Self-Hosting & Deployment | **Not Started** | 0 | 7 | 0% | Turnkey Docker Compose, TLS automation, Coturn setup, backup scripts. |
 | **Phase 10** | Hardening & Public Beta Release | **Not Started** | 0 | 8 | 0% | Load testing, security audit, Authenticode/Apple signing, v1.0.0 launch. |
-| **TOTAL** | **Entire Project Scope** | **In Progress** | **11** | **92** | **12.0%** | **Phase 0 complete. Phase 1 scaffolding underway.** |
+| **TOTAL** | **Entire Project Scope** | **In Progress** | **18** | **92** | **19.6%** | **Phase 0 and Phase 1 complete.** |
 
 ---
 

@@ -91,7 +91,7 @@ docs/
 Development progresses incrementally following verified acceptance criteria:
 
 - [x] **[Phase 0 — Architecture & Project Foundation](docs/07-roadmap/PHASE_0_FOUNDATION.md)** (Status: **Completed Baseline**)
-- [ ] **[Phase 1 — Repository & Development Environment Setup](docs/07-roadmap/PHASE_1_REPOSITORY_SETUP.md)**
+- [x] **[Phase 1 — Repository & Development Environment Setup](docs/07-roadmap/PHASE_1_REPOSITORY_SETUP.md)**
 - [ ] **[Phase 2 — Rust Core Engine Design & Implementation](docs/07-roadmap/PHASE_2_CORE_ENGINE.md)**
 - [ ] **[Phase 3 — First Working Desktop Connection (Windows)](docs/07-roadmap/PHASE_3_DESKTOP_REMOTE_ACCESS.md)**
 - [ ] **[Phase 4 — Networking, Signaling & NAT Traversal](docs/07-roadmap/PHASE_4_NETWORKING.md)**

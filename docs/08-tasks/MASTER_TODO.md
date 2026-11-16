@@ -87,49 +87,49 @@ This document tracks all implementation tasks across the entire OpenDesk roadmap
   - **Acceptance Criteria**: Clean git hygiene; ignores build artifacts across Rust, .NET, Node, and Flutter
   - **Documentation Reference**: `docs/07-roadmap/PHASE_1_REPOSITORY_SETUP.md`
 
-- [ ] **P1-002** — Initialize root `Cargo.toml` and scaffold core Rust crates
+- [x] **P1-002** — Initialize root `Cargo.toml` and scaffold core Rust crates
   - **Priority**: P1 (High)
   - **Dependencies**: P1-001
   - **Expected Output**: Buildable Rust workspace with 11 member crates
   - **Acceptance Criteria**: `cargo check --workspace` succeeds with zero errors
   - **Documentation Reference**: `docs/02-technical-design/RUST_CORE_ENGINE.md`
 
-- [ ] **P1-003** — Scaffold ASP.NET Core 10 backend solution and projects
+- [x] **P1-003** — Scaffold ASP.NET Core 10 backend solution and projects
   - **Priority**: P1 (High)
   - **Dependencies**: P1-001
   - **Expected Output**: `OpenDesk.sln` with Clean Architecture projects
   - **Acceptance Criteria**: `dotnet build` succeeds with zero errors and zero warnings
   - **Documentation Reference**: `docs/02-technical-design/BACKEND_ARCHITECTURE.md`
 
-- [ ] **P1-004** — Scaffold Tauri v2 + React 19 desktop client under `clients/desktop`
+- [x] **P1-004** — Scaffold Tauri v2 + React 19 desktop client under `clients/desktop`
   - **Priority**: P1 (High)
   - **Dependencies**: P1-001, P1-002
   - **Expected Output**: Buildable Tauri desktop project
   - **Acceptance Criteria**: `pnpm build` compiles React frontend and links to Tauri Rust backend
   - **Documentation Reference**: `docs/02-technical-design/DESKTOP_APPLICATION.md`
 
-- [ ] **P1-005** — Scaffold Flutter 3.x mobile client under `clients/mobile`
+- [x] **P1-005** — Scaffold Flutter 3.x mobile client under `clients/mobile`
   - **Priority**: P2 (Medium)
   - **Dependencies**: P1-001
   - **Expected Output**: Buildable Flutter project skeleton
   - **Acceptance Criteria**: `flutter analyze` passes with zero issues
   - **Documentation Reference**: `docs/02-technical-design/MOBILE_APPLICATION.md`
 
-- [ ] **P1-006** — Configure local development `docker-compose.dev.yml` (Postgres 17 + Redis 7.4)
+- [x] **P1-006** — Configure local development `docker-compose.dev.yml` (Postgres 17 + Redis 7.4)
   - **Priority**: P1 (High)
   - **Dependencies**: P1-001
   - **Expected Output**: Running database and cache containers
-  - **Acceptance Criteria**: Containers report healthy status on ports 5432 and 6379
+  - **Acceptance Criteria**: Containers are healthy on internal ports 5432 and 6379 and expose configurable loopback host ports (defaults 5433 and 6380)
   - **Documentation Reference**: `docs/04-infrastructure/DOCKER_ARCHITECTURE.md`
 
-- [ ] **P1-007** — Configure GitHub Actions CI workflow matrix (`.github/workflows/ci.yml`)
+- [x] **P1-007** — Configure GitHub Actions CI workflow matrix (`.github/workflows/ci.yml`)
   - **Priority**: P1 (High)
   - **Dependencies**: P1-002, P1-003, P1-004
   - **Expected Output**: Automated CI testing on Windows, Linux, and macOS
   - **Acceptance Criteria**: CI triggers on PRs and passes all matrix jobs
   - **Documentation Reference**: `docs/04-infrastructure/CI_CD.md`
 
-- [ ] **P1-008** — Verify build and test execution across all projects
+- [x] **P1-008** — Verify build and test execution across all projects
   - **Priority**: P1 (High)
   - **Dependencies**: P1-001 through P1-007
   - **Expected Output**: Verified local build scripts

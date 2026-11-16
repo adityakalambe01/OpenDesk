@@ -15,4 +15,7 @@ tauri-build = { version = "2", features = [] }
 [dependencies]
 tauri = { version = "2", features = [] }
 
+[workspace]
+resolver = "2"
+
 

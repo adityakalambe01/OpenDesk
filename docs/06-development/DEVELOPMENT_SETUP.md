@@ -9,8 +9,8 @@ Ensure the following runtimes and compilers are installed prior to repository bo
 | **Rust** | 1.82.0+ (Stable) | `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs \| sh` |
 | **.NET SDK** | 10.0+ | `winget install Microsoft.DotNet.SDK.10` or `https://dotnet.microsoft.com` |
 | **Node.js** | 22.x LTS | `winget install OpenJS.NodeJS.LTS` or `fnm use 22` |
-| **pnpm** | 9.x+ | `corepack enable && corepack prepare pnpm@latest --activate` |
-| **Flutter** | 3.24+ | `https://docs.flutter.dev/get-started/install` |
+| **pnpm** | 9.15.4 | `corepack enable && corepack prepare pnpm@9.15.4 --activate` |
+| **Flutter** | 3.50.0+ | `https://docs.flutter.dev/get-started/install` |
 | **Docker** | Docker Desktop 26+ | `https://www.docker.com/products/docker-desktop/` |
 
 ---
@@ -48,23 +48,31 @@ cd opendesk
 
 ### Step 2: Launch Local Database & Redis Dependencies
 ```bash
-# Start PostgreSQL 17 and Redis 7.4 in background
+# Start PostgreSQL 17 and Redis 7.4 in background (loopback host ports 5433 and 6380)
 docker compose -f deploy/docker-compose/docker-compose.dev.yml up -d
 ```
 
-### Step 3: Initialize & Migrate Backend Database
+### Step 3: Verify Backend and Local Dependencies
 ```bash
-cd server/src/OpenDesk.Api
-dotnet ef database update --project ../OpenDesk.Infrastructure
-dotnet run
-# API will launch at https://localhost:7142; OpenAPI at https://localhost:7142/swagger
+dotnet test OpenDesk.sln
+dotnet run --project server/src/OpenDesk.Api/OpenDesk.Api.csproj
+# Open /health/ready on the URL printed by ASP.NET Core; it checks PostgreSQL and Redis.
+# Set OPENDESK_POSTGRES_HOST_PORT / OPENDESK_REDIS_HOST_PORT to change host ports if needed.
 ```
 
 ### Step 4: Launch Desktop Client in Development Mode
 In a separate terminal:
 ```bash
 cd clients/desktop
-pnpm install
+pnpm install --frozen-lockfile
 pnpm tauri dev
 ```
 - Spawns the React 19 frontend with Hot-Module Replacement (HMR) and connects to the native Rust `opendesk-engine`.
+
+### Step 5: Verify the Flutter Mobile Client
+```bash
+cd clients/mobile
+flutter pub get --enforce-lockfile
+flutter analyze --fatal-infos
+flutter test
+```

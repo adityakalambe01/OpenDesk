@@ -1,1 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk.Web"><PropertyGroup><TargetFramework>net10.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup><ItemGroup><PackageReference Include="Microsoft.AspNetCore.OpenApi" /><ProjectReference Include="..\OpenDesk.Application\OpenDesk.Application.csproj" /><ProjectReference Include="..\OpenDesk.Infrastructure\OpenDesk.Infrastructure.csproj" /><ProjectReference Include="..\OpenDesk.Signaling\OpenDesk.Signaling.csproj" /></ItemGroup></Project>
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Npgsql" />
+    <PackageReference Include="StackExchange.Redis" />
+    <ProjectReference Include="..\OpenDesk.Application\OpenDesk.Application.csproj" />
+    <ProjectReference Include="..\OpenDesk.Infrastructure\OpenDesk.Infrastructure.csproj" />
+    <ProjectReference Include="..\OpenDesk.Signaling\OpenDesk.Signaling.csproj" />
+  </ItemGroup>
+</Project>
