@@ -76,3 +76,20 @@ flutter pub get --enforce-lockfile
 flutter analyze --fatal-infos
 flutter test
 ```
+
+## Running Rust Checks with Docker
+
+Docker can run the Rust workspace without installing Rust or Cargo on the host. From the repository root:
+
+```bash
+docker build -t opendesk-rust-test .
+docker run --rm opendesk-rust-test
+```
+
+The default command runs `cargo test --workspace --locked`. To test only the protocol crate, override the image command:
+
+```bash
+docker run --rm opendesk-rust-test cargo test -p opendesk-proto --locked
+```
+
+Rebuild the image after changing Rust dependencies or the source tree. Docker reuses unchanged image layers between builds.

@@ -30,7 +30,7 @@ All OpenDesk clients and hosts communicate over WebRTC SCTP Data Channels utiliz
 - **Serialization Standard**:
   - Internal Rust Engine and Native Channels: `bincode` binary format with variable-length integer encoding.
   - Cross-Language SignalR & REST APIs: JSON (OpenAPI schemas) and Protobuf contracts.
-- **Header Structure**: Every data channel packet begins with a standard 4-byte header:
+- **Header Structure**: Every data channel packet begins with an 8-byte header: 1-byte magic, 1-byte version, 2-byte message type, and 4-byte payload length, all integers big-endian:
 
 ```
  0                   1                   2                   3
@@ -107,6 +107,12 @@ pub enum SystemActionPayload {
 }
 ```
 
+The frame's message type is the ID shown above. Text composition uses `0x0109`.
+Control messages use the IDs in the table above; clipboard messages use `0x0201`
+(text), `0x0202` (PNG image), and `0x0203` (format announcement). File-transfer
+messages use `0x0301` through `0x0309` in the order listed in `FILE_TRANSFER.md`.
+Serialized payloads use big-endian bincode varints and are limited to 16 MiB per frame. Protocol collections are limited to 4,096 entries to bound allocations while decoding untrusted frames.
+
 ---
 
 ## 5. Clipboard Channel Messages (`opendesk-clipboard`)
@@ -121,4 +127,4 @@ pub enum ClipboardPayload {
 ```
 - Transmitted reliably and ordered.
 - Debounced by 200 ms on both host and client to avoid clipboard spam loops.
-- Payload size capped at 10 MB.
+- Clipboard content is capped at 10 MiB by the protocol implementation.

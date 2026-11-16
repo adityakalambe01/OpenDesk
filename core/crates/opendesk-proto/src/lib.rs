@@ -1,9 +1,17 @@
-//! opendesk-proto crate.
+//! Shared, platform-independent OpenDesk wire protocol types and codec.
+#![forbid(unsafe_code)]
 
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn protocol_crate_is_included_in_the_workspace() {
-        assert_eq!(env!("CARGO_PKG_NAME"), "opendesk-proto");
-    }
-}
+pub mod clipboard;
+mod codec;
+pub mod control;
+pub mod file;
+pub mod input;
+mod serde_helpers;
+
+pub use clipboard::ClipboardMessage;
+pub use control::ControlMessage;
+pub use file::{FileEntry, FileTransferMessage, RejectReason};
+pub use input::{InputMessage, SystemAction};
+
+/// Serializes a protocol message into an OpenDesk frame.
+pub use codec::{decode, encode, CodecError, ProtocolMessage, HEADER_LEN, MAGIC, VERSION};
