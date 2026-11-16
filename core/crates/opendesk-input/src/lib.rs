@@ -240,4 +240,47 @@ mod tests {
         assert_eq!(injector.backend.0.load(Ordering::Relaxed), 1);
         assert_eq!(alert_count.load(Ordering::Relaxed), 1);
     }
+
+    #[test]
+    fn available_capacity_tracks_recently_accepted_events() {
+        let mut limiter = RollingWindowLimiter::new(2, std::time::Duration::from_secs(60));
+        assert_eq!(limiter.available_capacity(), 2);
+        assert!(limiter.try_acquire());
+        assert_eq!(limiter.available_capacity(), 1);
+        assert!(limiter.try_acquire());
+        assert_eq!(limiter.available_capacity(), 0);
+    }
+
+    #[test]
+    fn injector_propagates_backend_failures() {
+        struct FailingBackend;
+        impl InputBackend for FailingBackend {
+            fn inject(&self, _event: &InputMessage) -> Result<(), InputError> {
+                Err(InputError::Backend("device unavailable".into()))
+            }
+        }
+
+        let injector = RateLimitedInputInjector::new(FailingBackend, || {});
+        let event = InputMessage::SystemAction(opendesk_proto::SystemAction::ShowDesktop);
+        assert_eq!(
+            injector.inject(&event),
+            Err(InputError::Backend("device unavailable".into()))
+        );
+    }
+
+    #[test]
+    fn injector_reports_a_poisoned_limiter_lock() {
+        let injector = RateLimitedInputInjector::new(CountingBackend(AtomicUsize::new(0)), || {});
+        let poison_result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+            let _guard = injector.limiter.lock().unwrap();
+            panic!("intentionally poison the test lock");
+        }));
+        assert!(poison_result.is_err());
+
+        let event = InputMessage::SystemAction(opendesk_proto::SystemAction::ShowDesktop);
+        assert_eq!(
+            injector.inject(&event),
+            Err(InputError::RateLimiterUnavailable)
+        );
+    }
 }

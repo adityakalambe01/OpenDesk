@@ -189,12 +189,13 @@ This document tracks all implementation tasks across the entire OpenDesk roadmap
   - **Acceptance Criteria**: Dispatches captured frames, polls encoders, and handles control signals
   - **Documentation Reference**: `docs/02-technical-design/RUST_CORE_ENGINE.md`
 
-- [ ] **P2-008** — Author comprehensive unit tests and property-based test suites
+- [x] **P2-008** — Author comprehensive unit tests and property-based test suites
   - **Priority**: P1 (High)
   - **Dependencies**: P2-001 through P2-007
   - **Expected Output**: Full test coverage report
   - **Acceptance Criteria**: Code coverage $\ge 85\%$ across core crates
   - **Documentation Reference**: `docs/06-development/TESTING_STRATEGY.md`
+  - **Coverage Report**: `docs/08-tasks/P2-008_COVERAGE_REPORT.md`
 
 ---
 

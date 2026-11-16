@@ -161,3 +161,64 @@ pub trait AudioCapturer: Send + Sync {
     fn capture_next_frame(&mut self, timeout_ms: u32) -> Result<RawAudioFrame, CaptureError>;
     fn stop_capture(&mut self) -> Result<(), CaptureError>;
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn native_surface_retains_resource_and_checks_concrete_type() {
+        let resource = Arc::new(vec![1_u8, 2, 3]);
+        let surface = NativeSurface::new(SurfaceKind::D3D11, Arc::clone(&resource));
+        let cloned = surface.clone();
+
+        assert_eq!(surface.kind(), SurfaceKind::D3D11);
+        assert_eq!(surface.downcast_ref::<Vec<u8>>(), Some(&vec![1, 2, 3]));
+        assert!(surface.downcast_ref::<String>().is_none());
+        drop(resource);
+        assert_eq!(cloned.downcast_ref::<Vec<u8>>().unwrap().len(), 3);
+        assert!(format!("{surface:?}").contains("D3D11"));
+    }
+
+    #[test]
+    fn captured_frames_clone_cpu_storage_without_copying_bytes() {
+        let bytes: Arc<[u8]> = Arc::from([4_u8, 5, 6, 7]);
+        let frame = RawVideoFrame {
+            display_id: 2,
+            width: 1,
+            height: 1,
+            stride: 4,
+            timestamp_us: u64::MAX,
+            format: PixelFormat::Bgra8,
+            data: FrameBuffer::CpuMemory(Arc::clone(&bytes)),
+        };
+        let clone = frame.clone();
+
+        let FrameBuffer::CpuMemory(cloned_bytes) = clone.data else {
+            panic!("CPU frame storage should remain CPU-backed")
+        };
+        assert!(Arc::ptr_eq(&bytes, &cloned_bytes));
+        assert_eq!(cloned_bytes.as_ref(), &[4, 5, 6, 7]);
+    }
+
+    #[test]
+    fn capture_errors_have_stable_user_readable_messages() {
+        let cases = [
+            (
+                CaptureError::Backend("device lost".into()),
+                "capture backend failed: device lost",
+            ),
+            (
+                CaptureError::PermissionDenied,
+                "screen capture permission denied",
+            ),
+            (CaptureError::DisplayNotFound(7), "display 7 was not found"),
+            (CaptureError::NotStarted, "capture has not been started"),
+            (CaptureError::AlreadyStarted, "capture is already started"),
+            (CaptureError::Timeout, "capture timed out"),
+        ];
+        for (error, message) in cases {
+            assert_eq!(error.to_string(), message);
+        }
+    }
+}

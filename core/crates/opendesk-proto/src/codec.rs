@@ -109,6 +109,7 @@ pub fn decode<T: ProtocolMessage>(frame: &[u8]) -> Result<T, CodecError> {
 mod tests {
     use super::*;
     use crate::ControlMessage;
+    use proptest::prelude::*;
     #[test]
     fn frame_header_is_network_byte_order() {
         let frame = encode(&ControlMessage::Ping {
@@ -338,5 +339,45 @@ mod tests {
                 actual: 7
             })
         ));
+    }
+
+    #[test]
+    fn property_frame_truncation_and_trailing_bytes_are_rejected() {
+        for payload_len in 0..128 {
+            let message = crate::ClipboardMessage::Text {
+                content: "x".repeat(payload_len),
+            };
+            let frame = encode(&message).unwrap();
+            if frame.len() > HEADER_LEN {
+                assert!(matches!(
+                    decode::<crate::ClipboardMessage>(&frame[..frame.len() - 1]),
+                    Err(CodecError::InvalidPayloadLength { .. })
+                ));
+            }
+            let mut with_trailing = frame;
+            with_trailing.push(0);
+            assert!(matches!(
+                decode::<crate::ClipboardMessage>(&with_trailing),
+                Err(CodecError::InvalidPayloadLength { .. })
+            ));
+        }
+    }
+
+    proptest! {
+        #![proptest_config(ProptestConfig::with_cases(128))]
+
+        #[test]
+        fn generated_timestamps_roundtrip(timestamp_micros in any::<u64>()) {
+            let message = ControlMessage::Ping { timestamp_micros };
+            let frame = encode(&message).unwrap();
+            prop_assert_eq!(decode::<ControlMessage>(&frame).unwrap(), message);
+        }
+
+        #[test]
+        fn generated_clipboard_bytes_roundtrip(data in prop::collection::vec(any::<u8>(), 0..8192)) {
+            let message = crate::ClipboardMessage::ImagePng { data };
+            let frame = encode(&message).unwrap();
+            prop_assert_eq!(decode::<crate::ClipboardMessage>(&frame).unwrap(), message);
+        }
     }
 }
