@@ -1,0 +1,45 @@
+graph TB
+    subgraph Clients["Clients / Controllers"]
+        DesktopClient["Desktop Client (Tauri v2 + React 19)"]
+        MobileClient["Mobile Client (Flutter 3.x - iOS/Android)"]
+        WebClient["Web Client (React 19 + WebCodecs)"]
+    end
+
+    subgraph ControlPlane["OpenDesk Control Plane"]
+        Gateway["Nginx / Cloudflare Ingress (TLS 1.3)"]
+        API["ASP.NET Core 10 Web API"]
+        SignalR["SignalR WebSocket Signaling Hub"]
+        Postgres[(PostgreSQL 17 Database)]
+        Redis[(Redis 7.4 Cluster / Presence)]
+    end
+
+    subgraph TransportPlane["Relay Infrastructure"]
+        Coturn["Coturn STUN / TURN Cluster (RFC 8656)"]
+    end
+
+    subgraph Host["Controlled Host Machine"]
+        Daemon["System Service Daemon (Session 0 / root)"]
+        Agent["Desktop Session Agent (Screen Capture & Input)"]
+        HostUI["Host UI Shell (Attended Support & Toolbar)"]
+    end
+
+    DesktopClient -->|HTTPS / WSS| Gateway
+    MobileClient -->|HTTPS / WSS| Gateway
+    WebClient -->|HTTPS / WSS| Gateway
+
+    Gateway --> API
+    Gateway --> SignalR
+    API --> Postgres
+    API --> Redis
+    SignalR --> Redis
+
+    Daemon -->|HTTPS / WSS| Gateway
+    HostUI -->|Local IPC| Daemon
+    Daemon -->|Interactive Token| Agent
+
+    SignalR -.->|SDP & ICE Exchange| DesktopClient
+    SignalR -.->|SDP & ICE Exchange| Daemon
+
+    DesktopClient <===>|Primary: Direct P2P WebRTC (DTLS-SRTP)| Agent
+    DesktopClient <===>|Fallback: Relayed WebRTC| Coturn
+    Coturn <===>|Relayed WebRTC (DTLS-SRTP)| Agent

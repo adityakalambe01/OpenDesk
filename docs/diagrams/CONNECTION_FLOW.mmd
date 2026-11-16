@@ -1,0 +1,48 @@
+sequenceDiagram
+    autonumber
+    actor Client as Controller Client
+    participant SignalR as ASP.NET Core Signaling Hub
+    participant Host as Host Daemon / Agent
+    participant Coturn as Coturn STUN/TURN Relay
+
+    Client->>SignalR: Request Session Connection (DeviceID or 9-digit Support Code)
+    SignalR->>Host: Dispatch Connection Invitation & Auth Challenge
+    
+    alt Attended Support Mode
+        Host->>Host: Display Interactive User Consent Dialog
+        Host-->>SignalR: User Grants Full Control
+    else Unattended Mode
+        Host->>Host: Verify Client Cryptographic Signature & Argon2id Hash
+        Host-->>SignalR: Unattended Authorization Confirmed
+    end
+
+    Client->>SignalR: Request Ephemeral TURN Credentials
+    SignalR-->>Client: Return RFC 5766 HMAC-SHA1 TURN Tokens
+    Host->>SignalR: Request Ephemeral TURN Credentials
+    SignalR-->>Host: Return RFC 5766 HMAC-SHA1 TURN Tokens
+
+    Client->>SignalR: Send WebRTC SDP Offer (Codecs, Resolutions)
+    SignalR->>Host: Forward SDP Offer
+    Host->>SignalR: Send WebRTC SDP Answer
+    SignalR->>Client: Forward SDP Answer
+
+    par Trickle ICE Candidate Exchange
+        Client->>SignalR: Stream Client ICE Candidates (Host, Srflx, Relay)
+        SignalR->>Host: Deliver Client Candidates
+    and
+        Host->>SignalR: Stream Host ICE Candidates (Host, Srflx, Relay)
+        SignalR->>Client: Deliver Host Candidates
+    end
+
+    Client->>Host: ICE Connectivity Checks (STUN Binding Requests)
+    
+    alt Direct P2P Success (Same LAN or Full-Cone NAT)
+        Client<===>Host: Direct UDP WebRTC Connection (DTLS 1.3 / SRTP)
+    else Direct P2P Blocked (Symmetric NAT / Strict Firewall)
+        Client<===>Coturn: Relayed DTLS-SRTP Media
+        Coturn<===>Host: Relayed DTLS-SRTP Media
+    end
+
+    Client<===>Host: E2EE Key Exchange (X25519 ECDH over SCTP opendesk-control)
+    Host-->>Client: Stream Encrypted H.264 Video & Opus Audio
+    Client-->>Host: Stream Encrypted Synthetic Input & Clipboard Packets

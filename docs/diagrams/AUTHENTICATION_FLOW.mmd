@@ -1,0 +1,27 @@
+sequenceDiagram
+    autonumber
+    actor User as User / Technician
+    participant Client as OpenDesk Client (Desktop/Mobile)
+    participant API as OpenDesk Web API (ASP.NET Core 10)
+    participant DB as PostgreSQL 17 Database
+    participant Redis as Redis 7.4 Presence Cache
+
+    User->>Client: Submit Credentials (Email, Password, TOTP MFA)
+    Client->>API: POST /api/v1/auth/login
+    API->>DB: Query User Record & Verify Argon2id Password Hash
+    
+    alt MFA Enabled
+        API->>API: Validate 6-digit TOTP Code (RFC 6238)
+    end
+
+    API->>DB: Insert Rotating Refresh Token (SHA-256 Hashed)
+    API->>Redis: Cache User Session & Active Permissions
+    API-->>Client: 200 OK { AccessToken (JWT, 15m), RefreshToken (UUID), UserProfile }
+
+    Note over Client: Securely store RefreshToken in OS Secure Keychain<br/>(Windows Credential Locker / macOS Keychain / Linux Secret Service)
+
+    loop Token Refresh Every 14 Minutes
+        Client->>API: POST /api/v1/auth/refresh { RefreshToken }
+        API->>DB: Verify & Rotate Refresh Token
+        API-->>Client: 200 OK { New AccessToken, New RefreshToken }
+    end

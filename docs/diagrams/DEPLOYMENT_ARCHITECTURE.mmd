@@ -1,0 +1,45 @@
+graph TD
+    subgraph Internet["Public Ingress"]
+        DNS["DNS Records\n(desk.example.com & relay.example.com)"]
+        UserBrowser["Web Dashboard User"]
+        TechClient["Technician Desktop Client"]
+        RemoteHost["Remote Host Computer"]
+    end
+
+    subgraph HostServer["Self-Hosted Docker Node / VM (Single-Host Deployment)"]
+        subgraph Ports["External Network Ports"]
+            PortHTTP["Port 80 TCP (ACME)"]
+            PortHTTPS["Port 443 TCP (Web / API / WSS)"]
+            PortSTUN["Port 3478 UDP/TCP (STUN/TURN)"]
+            PortTURNS["Port 5349 UDP/TCP (TURNS TLS)"]
+            PortRelayRange["Ports 49152-65535 UDP (Media Relay)"]
+        end
+
+        subgraph DockerBridge["Docker Network: opendesk-net"]
+            NginxContainer["Nginx Reverse Proxy & Certbot\n(Container: opendesk-nginx)"]
+            ServerContainer["OpenDesk Server (ASP.NET Core 10)\n(Container: opendesk-server)"]
+            PostgresContainer["PostgreSQL 17 Database\n(Container: opendesk-postgres)\nVolume: opendesk_pgdata"]
+            RedisContainer["Redis 7.4 Presence & Backplane\n(Container: opendesk-redis)\nVolume: opendesk_redisdata"]
+        end
+
+        subgraph HostNet["Host Networking Mode"]
+            CoturnContainer["Coturn STUN / TURN Relay\n(Container: opendesk-coturn)"]
+        end
+    end
+
+    UserBrowser -->|HTTPS :443| PortHTTPS
+    TechClient -->|WSS / API :443| PortHTTPS
+    TechClient -->|STUN/TURN :3478| PortSTUN
+    RemoteHost -->|WSS / API :443| PortHTTPS
+    RemoteHost -->|STUN/TURN :3478| PortSTUN
+
+    PortHTTP --> NginxContainer
+    PortHTTPS --> NginxContainer
+    NginxContainer -->|Internal HTTP :5000| ServerContainer
+
+    ServerContainer -->|Port 5432| PostgresContainer
+    ServerContainer -->|Port 6379| RedisContainer
+
+    PortSTUN --> CoturnContainer
+    PortTURNS --> CoturnContainer
+    PortRelayRange --> CoturnContainer

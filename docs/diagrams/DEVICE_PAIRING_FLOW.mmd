@@ -1,0 +1,25 @@
+sequenceDiagram
+    autonumber
+    actor Admin as Device Owner / Admin
+    participant HostUI as Host Machine (Tauri UI)
+    participant HostDaemon as Host Background Daemon
+    participant API as OpenDesk API
+    participant DB as PostgreSQL Database
+
+    Admin->>HostUI: Open Settings -> "Bind Device to My Account"
+    HostUI->>HostDaemon: Request Hardware Pairing Token
+    Note over HostDaemon: Read hardware fingerprint (BIOS UUID, CPU, MAC)<br/>Derive canonical 64-bit DeviceID<br/>Generate or load Ed25519 Identity Keypair
+    HostDaemon-->>HostUI: Return Pairing Payload (DeviceID + Ed25519 Public Key)
+    HostUI->>HostUI: Display QR Code & 6-digit Pairing PIN
+
+    alt Method A: Scan QR Code via Mobile App
+        Admin->>API: Mobile App submits authenticated claim request with scanned payload
+    else Method B: Enter 6-digit PIN on Web Dashboard
+        Admin->>API: Dashboard submits POST /api/v1/devices/claim { DeviceID, PairingPIN }
+    end
+
+    API->>API: Verify Admin Account JWT & Organization Permissions
+    API->>DB: Bind DeviceID to Organization & User Record
+    API->>HostDaemon: Dispatch Confirmed Pairing Notice via WebSocket
+    Note over HostDaemon: Save Account Binding Certificate in OS Protected Vault<br/>Enable Unattended Access Policy
+    HostUI-->>Admin: Display Success Badge: "Device Paired to Admin Account"
