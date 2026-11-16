@@ -168,7 +168,7 @@ This document tracks all implementation tasks across the entire OpenDesk roadmap
   - **Acceptance Criteria**: Zero-copy surface representations defined for D3D11, IOSurface, and DmaBuf
   - **Documentation Reference**: `docs/02-technical-design/SCREEN_CAPTURE.md`
 
-- [ ] **P2-005** — Define `VideoEncoder` and `AudioEncoder` interfaces in `opendesk-encoder`
+- [x] **P2-005** — Define `VideoEncoder` and `AudioEncoder` interfaces in `opendesk-encoder`
   - **Priority**: P1 (High)
   - **Dependencies**: P1-002
   - **Expected Output**: Abstract video and audio codec traits

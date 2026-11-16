@@ -275,6 +275,10 @@ version = "0.1.0"
 [[package]]
 name = "opendesk-encoder"
 version = "0.1.0"
+dependencies = [
+ "opendesk-capture",
+ "thiserror",
+]
 
 [[package]]
 name = "opendesk-engine"
