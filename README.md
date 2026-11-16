@@ -8,7 +8,7 @@
 [![Backend](https://img.shields.io/badge/Backend-ASP.NET_Core_10-purple.svg)](docs/02-technical-design/BACKEND_ARCHITECTURE.md)
 [![Desktop](https://img.shields.io/badge/Desktop-Tauri_v2_%2B_React_19-blue.svg)](docs/02-technical-design/DESKTOP_APPLICATION.md)
 [![Mobile](https://img.shields.io/badge/Mobile-Flutter_3.x-cyan.svg)](docs/02-technical-design/MOBILE_APPLICATION.md)
-[![Roadmap Status](https://img.shields.io/badge/Status-Phase_0_Complete-brightgreen.svg)](docs/08-tasks/IMPLEMENTATION_TRACKER.md)
+[![Roadmap Status](https://img.shields.io/badge/Status-Phase_2_Complete-brightgreen.svg)](docs/08-tasks/IMPLEMENTATION_TRACKER.md)
 
 **A modern, self-hostable, zero-trust remote desktop platform built with Rust, Tauri, React 19, ASP.NET Core 10, Flutter, and WebRTC.**
 
@@ -92,7 +92,7 @@ Development progresses incrementally following verified acceptance criteria:
 
 - [x] **[Phase 0 — Architecture & Project Foundation](docs/07-roadmap/PHASE_0_FOUNDATION.md)** (Status: **Completed Baseline**)
 - [x] **[Phase 1 — Repository & Development Environment Setup](docs/07-roadmap/PHASE_1_REPOSITORY_SETUP.md)**
-- [ ] **[Phase 2 — Rust Core Engine Design & Implementation](docs/07-roadmap/PHASE_2_CORE_ENGINE.md)**
+- [x] **[Phase 2 — Rust Core Engine Design & Implementation](docs/07-roadmap/PHASE_2_CORE_ENGINE.md)** (Completed; [coverage report](docs/08-tasks/P2-008_COVERAGE_REPORT.md))
 - [ ] **[Phase 3 — First Working Desktop Connection (Windows)](docs/07-roadmap/PHASE_3_DESKTOP_REMOTE_ACCESS.md)**
 - [ ] **[Phase 4 — Networking, Signaling & NAT Traversal](docs/07-roadmap/PHASE_4_NETWORKING.md)**
 - [ ] **[Phase 5 — Authentication, Identity & Security Hardening](docs/07-roadmap/PHASE_5_SECURITY.md)**

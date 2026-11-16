@@ -10,7 +10,7 @@ This document provides a live dashboard tracking the implementation status, comp
 |:---:|---|:---:|:---:|:---:|:---:|---|
 | **Phase 0** | Architecture & Project Foundation | **Completed** | 10 | 10 | 100% | Full architectural specification, PRD, security model, and roadmap baseline established. |
 | **Phase 1** | Repository & Dev Setup | **Completed** | 8 | 8 | 100% | All projects build; desktop, mobile, Rust, and API tests pass; local services healthy; CI workflow configured. |
-| **Phase 2** | Rust Core Engine Interfaces | **In Progress** | 4 | 8 | 50% | Protocol serialization, Ed25519 identities, authenticated ephemeral E2EE primitives, and the engine session coordinator are implemented; platform capture, codecs, and input backends remain. |
+| **Phase 2** | Rust Core Engine Interfaces | **Completed** | 8 | 8 | 100% | Core protocol, crypto, capture/encoder/input interfaces, session coordinator, and the test suite with coverage report are complete. Platform-specific drivers remain in later phases. |
 | **Phase 3** | Desktop Remote Access (Win) | **Not Started** | 0 | 8 | 0% | Windows DXGI/WGC capture, SendInput, H.264 stream over LAN. |
 | **Phase 4** | Networking & Connectivity | **Not Started** | 0 | 8 | 0% | SignalR signaling hub, STUN, Coturn TURN relay, ICE restart. |
 | **Phase 5** | Authentication & Security | **Not Started** | 0 | 9 | 0% | Device pairing, unattended access, E2EE data channels, kill switch. |
@@ -19,7 +19,7 @@ This document provides a live dashboard tracking the implementation status, comp
 | **Phase 8** | Backend & Web Dashboard | **Not Started** | 0 | 8 | 0% | Multi-tenant RBAC, live fleet presence, browser WebRTC viewer, audit logs. |
 | **Phase 9** | Self-Hosting & Deployment | **Not Started** | 0 | 7 | 0% | Turnkey Docker Compose, TLS automation, Coturn setup, backup scripts. |
 | **Phase 10** | Hardening & Public Beta Release | **Not Started** | 0 | 8 | 0% | Load testing, security audit, Authenticode/Apple signing, v1.0.0 launch. |
-| **TOTAL** | **Entire Project Scope** | **In Progress** | **22** | **92** | **23.9%** | **Phase 0 and Phase 1 complete; Phase 2 implementation is underway.** |
+| **TOTAL** | **Entire Project Scope** | **In Progress** | **26** | **92** | **28.3%** | **Phases 0, 1, and 2 complete; Phase 3 is next.** |
 
 ---
 

@@ -16,5 +16,8 @@ thiserror = "2"
 x25519-dalek = { version = "2", features = ["static_secrets", "zeroize"] }
 zeroize = "1"
 
+[dev-dependencies]
+proptest = "=1.6.0"
+
 [lints]
 workspace = true

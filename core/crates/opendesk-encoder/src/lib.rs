@@ -116,3 +116,30 @@ pub trait AudioEncoder: Send + Sync {
     /// Release codec resources; safe to call after a failed start or stop.
     fn stop(&mut self) -> Result<(), EncoderError>;
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn codec_identifier_rejects_empty_and_padded_values() {
+        assert!(matches!(
+            CodecId::new(""),
+            Err(EncoderError::InvalidConfiguration(_))
+        ));
+        assert!(matches!(
+            CodecId::new(" h264"),
+            Err(EncoderError::InvalidConfiguration(_))
+        ));
+        assert_eq!(CodecId::new("h264").unwrap().as_str(), "h264");
+    }
+
+    #[test]
+    fn property_codec_identifier_preserves_non_whitespace_text() {
+        for length in 1..256 {
+            let identifier = "x".repeat(length);
+            let codec = CodecId::new(&identifier).unwrap();
+            assert_eq!(codec.as_str(), identifier);
+        }
+    }
+}

@@ -411,6 +411,7 @@ pub enum EncryptionError {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use proptest::prelude::*;
 
     fn fixture() -> (SessionKeys, SessionKeys) {
         let controller_identity = DeviceIdentity::from_secret_seed([1; 32]);
@@ -569,5 +570,23 @@ mod tests {
             Err(error) => error,
         };
         assert_eq!(error, EncryptionError::InvalidPeerPublicKey);
+    }
+
+    proptest! {
+        #![proptest_config(ProptestConfig::with_cases(64))]
+
+        #[test]
+        fn generated_payloads_roundtrip_and_reject_changed_aad(payload in prop::collection::vec(any::<u8>(), 0..4096)) {
+            let (mut sender, mut receiver) = fixture();
+            let envelope = sender.encrypt(&payload, b"property-channel").unwrap();
+            prop_assert_eq!(receiver.decrypt(&envelope, b"property-channel").unwrap(), payload.clone());
+
+            let (mut sender, mut receiver) = fixture();
+            let envelope = sender.encrypt(&payload, b"property-channel").unwrap();
+            prop_assert_eq!(
+                receiver.decrypt(&envelope, b"other-channel"),
+                Err(EncryptionError::AuthenticationFailed)
+            );
+        }
     }
 }
