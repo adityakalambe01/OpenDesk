@@ -43,7 +43,7 @@ Prior to implementing complex multimedia streaming or input logic, developers mu
 
 ## 7. Individual Development Tasks
 - **P1-001**: Configure root `.gitignore`, `.editorconfig`, and monorepo files.
-- **P1-002**: Initialize root `Cargo.toml` and scaffold core Rust crates (`opendesk-proto`, `opendesk-crypto`, `opendesk-capture`, `opendesk-encoder`, `opendesk-input`, `opendesk-transport`, `opendesk-engine`, `opendesk-ipc`, `opendesk-daemon`, `opendesk-cli`).
+- **P1-002**: Initialize root `Cargo.toml` and scaffold core Rust crates (`opendesk-proto`, `opendesk-crypto`, `opendesk-capture`, `opendesk-encoder`, `opendesk-input`, `opendesk-transport`, `opendesk-engine`, `opendesk-ipc`, `opendesk-daemon`, `opendesk-agent`, `opendesk-cli`).
 - **P1-003**: Scaffold ASP.NET Core 10 solution and projects (`OpenDesk.Domain`, `Application`, `Infrastructure`, `Signaling`, `Api`).
 - **P1-004**: Scaffold Tauri v2 + React 19 desktop client under `clients/desktop`.
 - **P1-005**: Scaffold Flutter 3.x mobile client under `clients/mobile`.

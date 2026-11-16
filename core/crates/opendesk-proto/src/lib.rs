@@ -1,0 +1,2 @@
+//! opendesk-proto crate.
+

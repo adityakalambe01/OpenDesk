@@ -1,0 +1,2 @@
+//! opendesk-ipc crate.
+

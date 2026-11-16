@@ -1,0 +1,36 @@
+# Rust
+**/target/
+**/*.rs.bk
+
+# .NET
+[Bb]in/
+[Oo]bj/
+.vs/
+*.user
+*.suo
+
+# Node / Tauri
+node_modules/
+dist/
+.vite/
+.tauri/
+*.log
+
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+build/
+.flutter-*
+
+# IDE
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Local secrets and environment
+.env
+.env.*
+!.env.example
+

@@ -1,0 +1,30 @@
+[workspace]
+resolver = "2"
+members = [
+  "core/crates/opendesk-proto",
+  "core/crates/opendesk-crypto",
+  "core/crates/opendesk-capture",
+  "core/crates/opendesk-encoder",
+  "core/crates/opendesk-input",
+  "core/crates/opendesk-transport",
+  "core/crates/opendesk-engine",
+  "core/crates/opendesk-ipc",
+  "core/crates/opendesk-daemon",
+  "core/crates/opendesk-agent",
+  "core/crates/opendesk-cli",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.82"
+license = "Apache-2.0 OR MIT"
+repository = "https://github.com/opendesk-io/opendesk"
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
+[workspace.lints.clippy]
+all = "warn"
+
+
