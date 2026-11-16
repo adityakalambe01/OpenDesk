@@ -154,7 +154,7 @@ This document tracks all implementation tasks across the entire OpenDesk roadmap
   - **Acceptance Criteria**: Generates valid Ed25519 signatures; passes RFC 8032 test vectors
   - **Documentation Reference**: `docs/03-security/DEVICE_IDENTITY.md`
 
-- [ ] **P2-003** — Implement `opendesk-crypto` X25519 ephemeral key exchange and ChaCha20-Poly1305 AEAD
+- [x] **P2-003** — Implement `opendesk-crypto` X25519 ephemeral key exchange and ChaCha20-Poly1305 AEAD
   - **Priority**: P1 (High)
   - **Dependencies**: P1-002
   - **Expected Output**: E2EE envelope wrapper

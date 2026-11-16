@@ -26,7 +26,7 @@ OpenDesk adopts modern, post-RSA cryptographic standards designed to eliminate s
 
 ## 2. Ephemeral End-to-End Key Agreement (E2EE)
 
-Even though WebRTC establishes DTLS 1.3 transport encryption, OpenDesk implements an **application-layer End-to-End Encryption (E2EE)** envelope for all sensitive data channels (Input, Clipboard, File Transfer). This ensures that even if a WebRTC endpoint implementation had a transport bug or trusted intermediate proxy, payload privacy remains mathematically guaranteed.
+Even though WebRTC establishes DTLS 1.3 transport encryption, OpenDesk implements an **application-layer End-to-End Encryption (E2EE)** envelope for all sensitive data channels (Input, Clipboard, File Transfer). The application layer authenticates ephemeral exchange keys with the peers' Ed25519 device identities so a signaling or relay service cannot substitute its own keys. The remote identity must be checked against an authenticated device record or user-approved fingerprint.
 
 ```mermaid
 sequenceDiagram
@@ -37,17 +37,21 @@ sequenceDiagram
     Note over Controller: Generate Ephemeral X25519 Keypair:<br/>(priv_C, pub_C)
     Note over Host: Generate Ephemeral X25519 Keypair:<br/>(priv_H, pub_H)
 
-    Controller->>Host: Encrypted Control Handshake: Send pub_C (32 bytes)
-    Host->>Controller: Encrypted Control Handshake: Send pub_H (32 bytes)
+    Controller->>Host: Send pub_C, salt, session ID
+    Host->>Controller: Send pub_H
 
-    Note over Controller: Derive Shared Secret:<br/>K_shared = X25519(priv_C, pub_H)<br/>K_session = HKDF-SHA256(K_shared, salt, "OpenDesk-E2EE-v1")
-    Note over Host: Derive Shared Secret:<br/>K_shared = X25519(priv_H, pub_C)<br/>K_session = HKDF-SHA256(K_shared, salt, "OpenDesk-E2EE-v1")
+    Note over Controller,Host: Build canonical transcript from session ID, salt, both identities and both ephemeral keys
+    Controller->>Host: Ed25519 signature over transcript
+    Host->>Controller: Ed25519 signature over transcript
+    Note over Controller,Host: Verify the peer signature against its trusted device identity
 
-    Note over Controller,Host: Both peers now possess identical 32-byte K_session.<br/>Neither the Signaling Server nor Relay ever saw priv_C or priv_H.
+    Note over Controller,Host: X25519 + HKDF-SHA256 derives distinct controller-to-host and host-to-controller keys
 
-    Controller->>Host: Input Message encrypted with ChaCha20-Poly1305(K_session, Nonce, Data)
-    Host->>Host: Authenticated Decryption with K_session
+    Controller->>Host: Input encrypted with ChaCha20-Poly1305(send key, sequence nonce, Data)
+    Host->>Host: Authenticate, check replay window and decrypt with receive key
 ```
+
+The initiator generates a fresh 32-byte salt using the operating system CSPRNG and includes it, a 16-byte session ID, both Ed25519 identities, and both ephemeral public keys in the signed transcript. The `opendesk-crypto` crate rejects non-contributory peer keys and mismatched transcript identities. HKDF expands the shared secret into two direction-specific keys. Each direction uses a monotonically increasing 64-bit sequence in a 96-bit nonce; the receiver allows bounded reordering (64 sequence positions) and rejects duplicate or stale messages. Envelopes are encoded as `nonce (12 bytes) || ciphertext || Poly1305 tag (16 bytes)`. Callers must bind protocol context such as channel and message type as AEAD associated data. Both peers must create fresh ephemeral keys and salt for every session.
 
 ---
 
