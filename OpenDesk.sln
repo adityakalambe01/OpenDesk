@@ -1,0 +1,48 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenDesk.Domain", "server\src\OpenDesk.Domain\OpenDesk.Domain.csproj", "{702ED321-BB83-4C2A-A5F5-963F6BF55BDA}"
+EndProject
+
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenDesk.Application", "server\src\OpenDesk.Application\OpenDesk.Application.csproj", "{7BC0D327-5EFB-420C-AFB9-7DA8910EA92E}"
+EndProject
+
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenDesk.Infrastructure", "server\src\OpenDesk.Infrastructure\OpenDesk.Infrastructure.csproj", "{87862C81-9E9E-49BB-AE95-042479EBDBC1}"
+EndProject
+
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenDesk.Signaling", "server\src\OpenDesk.Signaling\OpenDesk.Signaling.csproj", "{4CD6FD68-1CAF-416E-88EB-EC9CE7A019D4}"
+EndProject
+
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenDesk.Api", "server\src\OpenDesk.Api\OpenDesk.Api.csproj", "{F7B1BAE5-730F-44E8-B509-72E8DACDC12C}"
+EndProject
+
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{702ED321-BB83-4C2A-A5F5-963F6BF55BDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{702ED321-BB83-4C2A-A5F5-963F6BF55BDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{702ED321-BB83-4C2A-A5F5-963F6BF55BDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{702ED321-BB83-4C2A-A5F5-963F6BF55BDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BC0D327-5EFB-420C-AFB9-7DA8910EA92E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BC0D327-5EFB-420C-AFB9-7DA8910EA92E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BC0D327-5EFB-420C-AFB9-7DA8910EA92E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BC0D327-5EFB-420C-AFB9-7DA8910EA92E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87862C81-9E9E-49BB-AE95-042479EBDBC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87862C81-9E9E-49BB-AE95-042479EBDBC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87862C81-9E9E-49BB-AE95-042479EBDBC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87862C81-9E9E-49BB-AE95-042479EBDBC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CD6FD68-1CAF-416E-88EB-EC9CE7A019D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CD6FD68-1CAF-416E-88EB-EC9CE7A019D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CD6FD68-1CAF-416E-88EB-EC9CE7A019D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CD6FD68-1CAF-416E-88EB-EC9CE7A019D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7B1BAE5-730F-44E8-B509-72E8DACDC12C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7B1BAE5-730F-44E8-B509-72E8DACDC12C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7B1BAE5-730F-44E8-B509-72E8DACDC12C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7B1BAE5-730F-44E8-B509-72E8DACDC12C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
+

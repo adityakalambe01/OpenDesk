@@ -1,0 +1,2 @@
+//! opendesk-input crate.
+
