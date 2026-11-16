@@ -82,14 +82,13 @@ pub struct RawVideoFrame {
 }
 
 pub enum FrameBuffer {
-    CpuMemory(Vec<u8>),
-    #[cfg(target_os = "windows")]
-    D3D11Texture(windows::Win32::Graphics::Direct3D11::ID3D11Texture2D),
-    #[cfg(target_os = "macos")]
-    IOSurface(*mut std::ffi::c_void),
-    #[cfg(target_os = "linux")]
-    DmaBufFd(std::os::fd::RawFd),
+    CpuMemory(Arc<[u8]>),
+    Native(NativeSurface),
 }
+
+// NativeSurface retains an owned, thread-safe platform wrapper. Its
+// SurfaceKind identifies D3D11, IOSurface, or DmaBuf; raw pointers and raw
+// file descriptors must not outlive their owning backend resource.
 
 pub trait ScreenCapturer: Send + Sync {
     fn enumerate_displays(&self) -> Result<Vec<DisplayInfo>, CaptureError>;
