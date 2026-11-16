@@ -47,7 +47,9 @@ impl NativeSurface {
 
 impl fmt::Debug for NativeSurface {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        f.debug_struct("NativeSurface").field("kind", &self.kind).finish_non_exhaustive()
+        f.debug_struct("NativeSurface")
+            .field("kind", &self.kind)
+            .finish_non_exhaustive()
     }
 }
 

@@ -175,7 +175,7 @@ This document tracks all implementation tasks across the entire OpenDesk roadmap
   - **Acceptance Criteria**: Support for bitrate updating, keyframe requests, and packetization
   - **Documentation Reference**: `docs/02-technical-design/VIDEO_AND_AUDIO.md`
 
-- [ ] **P2-006** — Define `InputInjector` interface and token bucket rate limiter in `opendesk-input`
+- [x] **P2-006** — Define `InputInjector` interface and rolling-window rate limiter in `opendesk-input`
   - **Priority**: P1 (High)
   - **Dependencies**: P1-002
   - **Expected Output**: Input injection traits and rate limiter
