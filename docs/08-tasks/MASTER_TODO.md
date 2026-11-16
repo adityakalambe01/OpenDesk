@@ -147,7 +147,7 @@ This document tracks all implementation tasks across the entire OpenDesk roadmap
   - **Acceptance Criteria**: Roundtrip serialization passes; 100% test coverage on message types
   - **Documentation Reference**: `docs/02-technical-design/SHARED_PROTOCOL.md`
 
-- [ ] **P2-002** — Implement `opendesk-crypto` Ed25519 identity generation and signature attestation
+- [x] **P2-002** — Implement `opendesk-crypto` Ed25519 identity generation and signature attestation
   - **Priority**: P1 (High)
   - **Dependencies**: P1-002
   - **Expected Output**: Device keypair generator and signature verifier
