@@ -182,7 +182,7 @@ This document tracks all implementation tasks across the entire OpenDesk roadmap
   - **Acceptance Criteria**: Caps event injection to 1,000 events/sec; drops overflow with alerts
   - **Documentation Reference**: `docs/02-technical-design/INPUT_CONTROL.md`
 
-- [ ] **P2-007** — Implement `EngineCoordinator` lifecycle loop and event dispatcher in `opendesk-engine`
+- [x] **P2-007** — Implement `EngineCoordinator` lifecycle loop and event dispatcher in `opendesk-engine`
   - **Priority**: P1 (High)
   - **Dependencies**: P2-001 through P2-006
   - **Expected Output**: Active session execution loop
