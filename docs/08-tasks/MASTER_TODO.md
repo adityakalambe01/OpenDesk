@@ -161,7 +161,7 @@ This document tracks all implementation tasks across the entire OpenDesk roadmap
   - **Acceptance Criteria**: Derives 32-byte shared key via HKDF-SHA256; encrypts/decrypts payloads
   - **Documentation Reference**: `docs/03-security/ENCRYPTION.md`
 
-- [ ] **P2-004** — Define `ScreenCapturer` and `AudioCapturer` interfaces in `opendesk-capture`
+- [x] **P2-004** — Define `ScreenCapturer` and `AudioCapturer` interfaces in `opendesk-capture`
   - **Priority**: P1 (High)
   - **Dependencies**: P1-002
   - **Expected Output**: Abstract capture traits and display enumeration types
