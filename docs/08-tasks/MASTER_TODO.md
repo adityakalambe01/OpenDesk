@@ -140,7 +140,7 @@ This document tracks all implementation tasks across the entire OpenDesk roadmap
 
 ## Phase 2 — Rust Core Engine Design & Implementation
 
-- [ ] **P2-001** — Implement `opendesk-proto` data structures and binary bincode serialization
+- [x] **P2-001** — Implement `opendesk-proto` data structures and binary bincode serialization
   - **Priority**: P1 (High)
   - **Dependencies**: P1-002
   - **Expected Output**: Strongly-typed protocol structs with serialization tests

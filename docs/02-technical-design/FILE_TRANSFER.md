@@ -36,7 +36,7 @@ graph TD
 
 ## 2. File Transfer Wire Protocol Messages
 
-All file transfer messages are serialized using `bincode` and framed with a 1-byte message type discriminator:
+All file transfer messages are serialized using big-endian varint `bincode` and framed with the shared 8-byte protocol header. Message IDs are `0x0301` through `0x0309`, in the order below. File chunks are limited to 64 KiB.
 
 ### Message Schema Definition:
 ```rust
