@@ -1,3 +1,5 @@
+name: opendesk-dev
+
 services:
   postgres:
     image: postgres:17-alpine
@@ -6,7 +8,7 @@ services:
       POSTGRES_USER: opendesk
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-opendesk-local-only}
     ports:
-      - "127.0.0.1:5432:5432"
+      - "127.0.0.1:${OPENDESK_POSTGRES_HOST_PORT:-5433}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -17,7 +19,7 @@ services:
   redis:
     image: redis:7.4-alpine
     ports:
-      - "127.0.0.1:6379:6379"
+      - "127.0.0.1:${OPENDESK_REDIS_HOST_PORT:-6380}:6379"
     volumes:
       - redis_data:/data
     healthcheck:
